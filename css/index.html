@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Toxirjonov Begzodbek — Frontend dasturchi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0f1f; --surface:#121a30; --ink:#eaf0ff; --muted:#93a0c0; --line:#26314d; --accent:#6ea8ff; --glow:#ff7ac6;
+  --display:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;
+  --body:"Instrument Sans","Segoe UI",system-ui,sans-serif;
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+  color-scheme:dark;
+}
+@media (prefers-color-scheme:light){
+  :root:not([data-theme="dark"]){--bg:#f1f4fb; --surface:#ffffff; --ink:#0f1830; --muted:#53607f; --line:#cfd7e8; --accent:#2f5bff; --glow:#e0388f; color-scheme:light;}
+}
+:root[data-theme="light"]{--bg:#f1f4fb; --surface:#ffffff; --ink:#0f1830; --muted:#53607f; --line:#cfd7e8; --accent:#2f5bff; --glow:#e0388f; color-scheme:light;}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.6 var(--body);overflow-x:hidden}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+.wrap{max-width:1000px;margin:0 auto;padding:0 24px;position:relative}
+#bar{position:fixed;left:0;top:0;height:3px;width:100%;background:linear-gradient(90deg,var(--accent),var(--glow));transform:scaleX(0);transform-origin:0 50%;z-index:20}
+#glow{position:fixed;left:0;top:0;width:360px;height:360px;margin:-180px 0 0 -180px;border-radius:50%;pointer-events:none;z-index:0;opacity:.16;background:radial-gradient(circle,var(--accent),transparent 65%);will-change:transform}
+header{position:relative;z-index:2;display:flex;justify-content:space-between;align-items:center;padding:26px 0}
+.logo{font:800 20px var(--display);text-decoration:none}
+nav a{margin-left:22px;text-decoration:none;color:var(--muted);font-weight:500;transition:color .2s}
+nav a:hover{color:var(--ink)}
+.hero{position:relative;min-height:calc(100svh - 80px);display:flex;flex-direction:column;justify-content:center;padding:40px 0 70px}
+#net{position:absolute;inset:-80px calc(50% - 50vw) 0;width:100vw;height:calc(100% + 80px);z-index:0}
+.hero>*:not(canvas){position:relative;z-index:1}
+h1{font:800 clamp(46px,11.5vw,134px)/.95 var(--display);letter-spacing:-.04em;margin:0 0 26px}
+h1 .ln{display:block;overflow:hidden;padding-bottom:.08em}
+h1 .ch{display:inline-block;transform:translateY(110%) rotate(8deg);animation:up .9s cubic-bezier(.2,.9,.2,1) forwards;animation-delay:calc(var(--i)*55ms + 150ms)}
+@keyframes up{to{transform:none}}
+.role{font:600 clamp(20px,3.4vw,30px) var(--display);min-height:1.3em;margin:0 0 18px;color:var(--accent)}
+.role i{display:inline-block;width:3px;height:1em;background:var(--glow);margin-left:4px;vertical-align:-.12em;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.lead{max-width:32em;color:var(--muted);font-size:19px;margin:0 0 32px;opacity:0;animation:fade 1s 1.3s forwards}
+.cta{opacity:0;animation:fade 1s 1.5s forwards}
+@keyframes fade{to{opacity:1}}
+.btn{display:inline-block;padding:15px 26px;border-radius:999px;background:var(--accent);color:var(--bg);font-weight:600;text-decoration:none;transition:transform .15s ease,box-shadow .25s}
+.btn:hover{box-shadow:0 0 0 6px color-mix(in srgb,var(--accent) 25%,transparent)}
+.btn.ghost{background:none;color:var(--ink);border:1.5px solid var(--line);margin-left:10px}
+.marq{border-block:1px solid var(--line);overflow:hidden;padding:18px 0;position:relative;z-index:1;background:color-mix(in srgb,var(--bg) 70%,transparent)}
+.marq div{display:flex;width:max-content;animation:slide 28s linear infinite}
+.marq span{font:600 26px var(--display);padding:0 28px;color:var(--muted);white-space:nowrap}
+.marq span:nth-child(even){color:var(--ink)}
+@keyframes slide{to{transform:translateX(-50%)}}
+section{position:relative;z-index:1;padding:86px 0 20px}
+h2{font:600 clamp(28px,4.5vw,40px)/1.15 var(--display);margin:0 0 34px;letter-spacing:-.015em}
+.about{max-width:38em;font-size:19px}
+.rv{opacity:0;transform:translateY(26px);transition:opacity .8s,transform .8s}
+.rv.on{opacity:1;transform:none}
+.proj{position:relative;display:grid;grid-template-columns:1fr 2fr auto;gap:10px 32px;align-items:baseline;padding:28px 18px;border-bottom:1px solid var(--line);overflow:hidden;transition:padding-left .3s}
+.proj:first-of-type{border-top:1px solid var(--line)}
+.proj::before{content:"";position:absolute;inset:0;background:radial-gradient(420px circle at var(--x,50%) var(--y,50%),color-mix(in srgb,var(--accent) 22%,transparent),transparent 70%);opacity:0;transition:opacity .3s}
+.proj:hover::before{opacity:1}
+.proj:hover{padding-left:30px}
+.proj>*{position:relative}
+.proj h3{font:600 24px var(--display);margin:0}
+.proj p{margin:0;color:var(--muted)}
+.proj .stack{grid-column:2;font-size:15px}
+.proj .go{grid-row:1;grid-column:3;font-weight:600;color:var(--accent);text-decoration:none}
+.skills{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:28px}
+.skills h3{font:600 19px var(--display);margin:0 0 8px}
+.skills p{margin:0;color:var(--muted)}
+#aloqa{padding-bottom:90px}
+.mail{font:800 clamp(24px,6.2vw,62px)/1.1 var(--display);text-decoration:none;letter-spacing:-.025em;background:linear-gradient(90deg,var(--accent),var(--glow)) 0 100%/0 4px no-repeat;transition:background-size .5s;word-break:break-all}
+.mail:hover{background-size:100% 4px}
+.links{margin-top:30px;display:flex;gap:24px;flex-wrap:wrap}
+.links a{font-weight:600;text-decoration:none;color:var(--muted);transition:color .2s}
+.links a:hover{color:var(--ink)}
+footer{position:relative;z-index:1;padding:34px 0 50px;color:var(--muted);font-size:15px;border-top:1px solid var(--line)}
+#tg{margin-left:20px;width:38px;height:38px;border-radius:50%;border:1.5px solid var(--line);background:none;color:var(--ink);font-size:17px;cursor:pointer;transition:transform .4s,border-color .2s}
+#tg:hover{transform:rotate(180deg);border-color:var(--accent)}
+@media (max-width:700px){
+  .proj{grid-template-columns:1fr}
+  .proj .stack,.proj .go{grid-column:1;grid-row:auto}
+  .btn.ghost{margin:12px 0 0}
+  nav a{margin-left:14px}
+  #glow{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  h1 .ch,.lead,.cta,.rv{animation:none;opacity:1;transform:none;transition:none}
+  .marq div{animation:none}
+  .role i{animation:none}
+}
+</style>
+</head>
+<body>
+<div id="bar"></div><div id="glow"></div>
+<div class="wrap">
+  <header>
+    <a class="logo" href="#top">TB</a>
+    <nav><a href="#loyihalar">Loyihalar</a><a href="#bilim">Bilimlar</a><a href="#aloqa">Aloqa</a><button id="tg" type="button" aria-label="Yorug‘ va qorong‘i rejimni almashtirish">◐</button></nav>
+  </header>
+
+  <main id="top">
+    <div class="hero">
+      <canvas id="net" aria-hidden="true"></canvas>
+      <h1 aria-label="Toxirjonov Begzodbek">
+        <span class="ln" data-t="Toxirjonov"></span>
+        <span class="ln" data-t="Begzodbek"></span>
+      </h1>
+      <p class="role"><span id="typed"></span><i></i></p>
+      <p class="lead">Frontend dasturchi: g‘oyani tez, qulay va chiroyli veb-sahifaga aylantiraman.</p>
+      <div class="cta"><a class="btn" href="#aloqa">Bog‘lanish</a><a class="btn ghost" href="#loyihalar">Loyihalarni ko‘rish</a></div>
+    </div>
+  </main>
+</div>
+
+<div class="marq" aria-hidden="true"><div id="mq"></div></div>
+
+<div class="wrap">
+  <section id="men" class="rv">
+    <h2>Men haqimda</h2>
+    <p class="about">Men Begzodbek, Frontend dasturchiman. HTML, CSS va JavaScript bilan ishlayman, Git va GitHub’dan erkin foydalanaman, shuningdek sun’iy intellekt (AI) vositalari bilan ham ishlay olaman. Maqsadim — tez, qulay va chiroyli veb-sahifalar yaratish.</p>
+  </section>
+
+  <section id="loyihalar" class="rv">
+    <h2>Loyihalar</h2>
+    <article class="proj"><h3>brendStard</h3><p>HTML bilan yaratilgan veb-sahifa loyihasi.</p><a class="go" href="https://github.com/toxirjonov529/brendStard" target="_blank" rel="noopener">Kodni ko‘rish</a><span class="stack">HTML, CSS</span></article>
+    <article class="proj"><h3>Po-lar</h3><p>Figma dizayni asosida yaratilgan veb-sahifa.</p><a class="go" href="https://github.com/toxirjonov529/Po-lar-Figma" target="_blank" rel="noopener">Kodni ko‘rish</a><span class="stack">HTML, CSS, Figma</span></article>
+    <article class="proj"><h3>Talabalar ro‘yxatdan o‘tish formasi</h3><p>Talabalarni ro‘yxatdan o‘tkazish formasi, jadval (table) yordamida yasalgan.</p><a class="go" href="https://github.com/toxirjonov529/Sutudent-Registration-Form-Using-Tabel" target="_blank" rel="noopener">Kodni ko‘rish</a><span class="stack">HTML, CSS</span></article>
+    <article class="proj"><h3>Trafalgar</h3><p>Figma dizayni asosida yaratilgan veb-sahifa.</p><a class="go" href="https://github.com/toxirjonov529/TrafalgarFigma" target="_blank" rel="noopener">Kodni ko‘rish</a><span class="stack">HTML, CSS, Figma</span></article>
+  </section>
+
+  <section id="bilim" class="rv">
+    <h2>Bilimlar</h2>
+    <div class="skills">
+      <div><h3>Frontend</h3><p>HTML, CSS va JavaScript bilan sahifalar yaratish</p></div>
+      <div><h3>Versiya nazorati</h3><p>Git va GitHub bilan loyihani boshqarish</p></div>
+      <div><h3>Sun’iy intellekt</h3><p>AI vositalari bilan ishlash va ularni ish jarayoniga qo‘llash</p></div>
+    </div>
+  </section>
+
+  <section id="aloqa" class="rv">
+    <h2>Keling, birga ishlaymiz</h2>
+    <a class="mail" href="mailto:toxirjonovbegzod12@gmail.com">toxirjonovbegzod12@gmail.com</a>
+    <div class="links"><a href="https://github.com/toxirjonov529" target="_blank" rel="noopener">GitHub</a><a href="https://t.me/tohirjonov_529" target="_blank" rel="noopener">Telegram</a><a href="https://t.me/+Qr4BG5sMtCo1ODMy" target="_blank" rel="noopener">Telegram kanal</a></div>
+  </section>
+</div>
+<footer><div class="wrap">© 2026 Toxirjonov Begzodbek</div></footer>
+
+<script>
+(function(){
+  var reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // name: letter-by-letter reveal
+  var n = 0;
+  document.querySelectorAll("h1 .ln").forEach(function(el){
+    el.setAttribute("aria-hidden","true");
+    el.textContent.length;
+    var t = el.getAttribute("data-t");
+    t.split("").forEach(function(c){
+      var s = document.createElement("span");
+      s.className = "ch"; s.style.setProperty("--i", n++); s.textContent = c; el.appendChild(s);
+    });
+  });
+
+  // typed roles
+  var roles = ["Frontend dasturchi", "Veb-sahifa yaratuvchi", "AI bilan ishlovchi"], ri = 0, ci = 0, del = false, out = document.getElementById("typed");
+  function tick(){
+    var w = roles[ri];
+    if (reduce) { out.textContent = w; return; }
+    ci += del ? -1 : 1;
+    out.textContent = w.slice(0, ci);
+    var d = del ? 40 : 90;
+    if (!del && ci === w.length) { del = true; d = 1400; }
+    else if (del && ci === 0) { del = false; ri = (ri + 1) % roles.length; d = 350; }
+    setTimeout(tick, d);
+  }
+  setTimeout(tick, 1100);
+
+  // skills marquee
+  var items = ["HTML","CSS","JavaScript","Git","GitHub","AI","Frontend"], h = "";
+  for (var k = 0; k < 2; k++) items.forEach(function(s){ h += "<span>" + s + "</span>"; });
+  document.getElementById("mq").innerHTML = h + h;
+
+  // scroll progress + reveal
+  var bar = document.getElementById("bar");
+  function prog(){
+    var m = document.documentElement.scrollHeight - innerHeight;
+    bar.style.transform = "scaleX(" + (m > 0 ? scrollY / m : 0) + ")";
+  }
+  addEventListener("scroll", prog, {passive:true}); prog();
+  if ("IntersectionObserver" in window) {
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){ if (e.isIntersecting) { e.target.classList.add("on"); io.unobserve(e.target); } });
+    }, {threshold:.15});
+    document.querySelectorAll(".rv").forEach(function(el){ io.observe(el); });
+  } else document.querySelectorAll(".rv").forEach(function(el){ el.classList.add("on"); });
+
+  // project spotlight
+  document.querySelectorAll(".proj").forEach(function(p){
+    p.addEventListener("pointermove", function(e){
+      var r = p.getBoundingClientRect();
+      p.style.setProperty("--x", (e.clientX - r.left) + "px");
+      p.style.setProperty("--y", (e.clientY - r.top) + "px");
+    });
+  });
+
+  // cursor glow
+  var g = document.getElementById("glow"), gx = 0, gy = 0, tx = 0, ty = 0;
+  addEventListener("pointermove", function(e){ tx = e.clientX; ty = e.clientY; });
+  (function loop(){ gx += (tx - gx) * .12; gy += (ty - gy) * .12; g.style.transform = "translate(" + gx + "px," + gy + "px)"; if (!reduce) requestAnimationFrame(loop); })();
+
+  // particle network
+  var cv = document.getElementById("net"), cx = cv.getContext("2d"), P = [], W, H, mx = -999, my = -999, col, col2;
+  function colors(){ var s = getComputedStyle(document.documentElement); col = s.getPropertyValue("--accent").trim(); col2 = s.getPropertyValue("--glow").trim(); }
+  function size(){
+    var r = cv.getBoundingClientRect(), d = Math.min(devicePixelRatio || 1, 2);
+    W = r.width; H = r.height; cv.width = W * d; cv.height = H * d; cx.setTransform(d,0,0,d,0,0);
+    var c = Math.min(110, Math.floor(W * H / 12000)); P = [];
+    for (var i = 0; i < c; i++) P.push({x:Math.random()*W, y:Math.random()*H, vx:(Math.random()-.5)*.45, vy:(Math.random()-.5)*.45});
+  }
+  cv.parentNode.addEventListener("pointermove", function(e){ var r = cv.getBoundingClientRect(); mx = e.clientX - r.left; my = e.clientY - r.top; });
+  cv.parentNode.addEventListener("pointerleave", function(){ mx = my = -999; });
+  function draw(){
+    cx.clearRect(0,0,W,H);
+    for (var i = 0; i < P.length; i++) {
+      var a = P[i];
+      if (!reduce) {
+        a.x += a.vx; a.y += a.vy;
+        if (a.x < 0 || a.x > W) a.vx *= -1;
+        if (a.y < 0 || a.y > H) a.vy *= -1;
+        var dx = a.x - mx, dy = a.y - my, dd = dx*dx + dy*dy;
+        if (dd < 14000 && dd > 1) { var f = (1 - dd/14000) * .9; a.x += dx/Math.sqrt(dd) * f * 2; a.y += dy/Math.sqrt(dd) * f * 2; }
+      }
+      cx.globalAlpha = .85; cx.fillStyle = col; cx.beginPath(); cx.arc(a.x, a.y, 1.8, 0, 6.283); cx.fill();
+      for (var j = i + 1; j < P.length; j++) {
+        var b = P[j], ex = a.x - b.x, ey = a.y - b.y, e2 = ex*ex + ey*ey;
+        if (e2 < 11000) { cx.globalAlpha = (1 - e2/11000) * .35; cx.strokeStyle = col; cx.lineWidth = 1; cx.beginPath(); cx.moveTo(a.x, a.y); cx.lineTo(b.x, b.y); cx.stroke(); }
+      }
+      var mxd = a.x - mx, myd = a.y - my, m2 = mxd*mxd + myd*myd;
+      if (m2 < 26000) { cx.globalAlpha = (1 - m2/26000) * .9; cx.strokeStyle = col2; cx.lineWidth = 1.2; cx.beginPath(); cx.moveTo(a.x, a.y); cx.lineTo(mx, my); cx.stroke(); }
+    }
+    if (!reduce) requestAnimationFrame(draw);
+  }
+  colors(); size(); draw();
+  document.getElementById("tg").addEventListener("click", function(){
+    var r = document.documentElement, dark = r.dataset.theme ? r.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+    r.dataset.theme = dark ? "light" : "dark"; colors(); if (reduce) draw();
+  });
+  addEventListener("resize", function(){ size(); if (reduce) draw(); });
+  matchMedia("(prefers-color-scheme: dark)").addEventListener("change", function(){ colors(); if (reduce) draw(); });
+})();
+</script>
+</body>
+</html>
